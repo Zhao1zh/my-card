@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>Your Name · 内容与平台</title>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  background:#f6f6f3;color:#111;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:980px;margin:0 auto;padding-bottom:36px}
+
+/* ---------- Hero ---------- */
+.hero{padding:46px 22px 6px}
+.eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#a8a59d}
+h1{font-size:clamp(28px,6vw,42px);margin:12px 0 10px;letter-spacing:-.02em;font-weight:700}
+.tagline{margin:0 0 16px;color:#4a4843;font-size:15px;line-height:1.75;max-width:34em}
+.domains{display:flex;flex-wrap:wrap;gap:8px}
+.domains span{font-size:12px;padding:6px 12px;border-radius:999px;background:#ece9e2;color:#5f5c55}
+
+/* ---------- Section title ---------- */
+.sec-h{display:flex;justify-content:space-between;align-items:baseline;padding:30px 22px 10px}
+.sec-h h2{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8a877f;margin:0;font-weight:600}
+.hint{font-size:11px;color:#b0ada5}
+
+/* ---------- Rail ---------- */
+.rail-wrap{position:relative}
+.rail{
+  display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:4px 22px 16px;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  cursor:grab;user-select:none;align-items:stretch;
+}
+.rail::-webkit-scrollbar{display:none}
+.rail.dragging{cursor:grabbing;scroll-snap-type:none}
+.nav{
+  position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;
+  border:1px solid #e0ddd5;background:#fff;color:#6b6861;font-size:17px;line-height:1;
+  display:grid;place-items:center;cursor:pointer;z-index:3;
+  box-shadow:0 4px 14px rgba(0,0,0,.07);transition:opacity .2s,background .2s,color .2s;
+}
+.nav:hover{background:#111;color:#fff;border-color:#111}
+.nav.prev{left:6px}
+.nav.next{right:6px}
+.nav[disabled]{opacity:0;pointer-events:none}
+@media (max-width:720px){.nav{display:none}}
+
+/* ---------- Card ---------- */
+.card{
+  flex:0 0 clamp(240px,74%,300px);scroll-snap-align:start;
+  background:#fff;border:1px solid #e8e6e0;border-radius:20px;padding:18px;
+  display:flex;flex-direction:column;text-decoration:none;color:inherit;
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,.07)}
+.card-top{display:flex;align-items:center;gap:9px;margin-bottom:4px}
+.icon{width:30px;height:30px;border-radius:9px;background:#f4f2ec;display:grid;place-items:center;font-size:16px;flex:none}
+.pname{font-size:15px;font-weight:600}
+.handle{margin-left:auto;font-size:11px;color:#b0ada5}
+.label{font-size:10px;letter-spacing:.14em;color:#b0ada5;margin:15px 0 7px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{font-size:12px;padding:5px 10px;border-radius:999px;background:#f4f2ec;color:#5f5c55}
+.card-foot{margin-top:auto;padding-top:18px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.fans{font-size:11px;color:#b0ada5}
+.go{font-size:12px;color:#ff4d2e;font-weight:600;white-space:nowrap}
+
+/* 扩展中 */
+.card.ghost{
+  border:1.5px dashed #dcd8d0;background:transparent;color:#a8a59d;
+  align-items:center;justify-content:center;text-align:center;gap:10px;cursor:default;
+}
+.card.ghost:hover{transform:none;box-shadow:none}
+.ghost .plus{width:42px;height:42px;border-radius:50%;border:1.5px dashed #dcd8d0;display:grid;place-items:center;font-size:18px}
+.ghost b{font-size:13px;font-weight:600;color:#8a877f}
+.ghost small{font-size:11px;line-height:1.6;display:block;max-width:11em}
+
+/* ---------- 作品 ---------- */
+.work-list{display:flex;flex-direction:column;gap:12px;padding:0 22px}
+.work{
+  display:flex;gap:14px;padding:14px;background:#fff;border:1px solid #e8e6e0;
+  border-radius:18px;text-decoration:none;color:inherit;align-items:center;
+  transition:transform .2s,box-shadow .2s;
+}
+.work:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(0,0,0,.06)}
+.cover{
+  width:62px;height:86px;border-radius:8px;flex:none;overflow:hidden;
+  background:linear-gradient(150deg,#ff8a5c,#ff4d2e);
+  display:flex;align-items:center;justify-content:center;padding:8px;
+  text-align:center;color:#fff;font-size:11px;line-height:1.35;font-weight:600;
+}
+.cover img{width:100%;height:100%;object-fit:cover;display:block}
+.work-body{min-width:0}
+.work-body h3{margin:0 0 5px;font-size:15px}
+.work-body p{margin:0;font-size:12.5px;color:#8a877f;line-height:1.6}
+.tag{display:inline-block;margin-top:8px;font-size:10.5px;padding:3px 8px;border-radius:6px;background:#fff1ec;color:#e8452a}
+.work .go{margin-left:auto;flex:none}
+
+/* 新增作品占位 */
+.work.ghost{border:1.5px dashed #dcd8d0;background:transparent;color:#a8a59d}
+.work.ghost:hover{transform:none;box-shadow:none;border-color:#c9c5bd}
+.work.ghost .cover{background:#f4f2ec;color:#b0ada5;font-size:22px;font-weight:400}
+.work.ghost h3{color:#8a877f}
+.work.ghost p{color:#b0ada5}
+
+/* ---------- 商业合作（小） ---------- */
+.contact{
+  margin:34px 22px 0;padding:16px 18px;background:#fff;border:1px solid #e8e6e0;border-radius:16px;
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+}
+.contact h2{margin:0 0 3px;font-size:13.5px;font-weight:600}
+.contact p{margin:0;font-size:12px;color:#8a877f}
+.mail{
+  margin-left:auto;display:inline-flex;align-items:center;gap:6px;
+  padding:9px 16px;border-radius:999px;background:#111;color:#fff;
+  text-decoration:none;font-size:12.5px;font-weight:500;transition:background .2s;
+}
+.mail:hover{background:#ff4d2e}
+@media (max-width:520px){.mail{width:100%;justify-content:center;margin-left:0}}
+
+/* ---------- 底部微博 ---------- */
+.bottom-links{display:flex;justify-content:center;padding:24px 22px 0}
+.weibo{
+  display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:999px;
+  background:#fff;border:1px solid #e8e6e0;text-decoration:none;color:#2c2a27;font-size:12.5px;
+  transition:border-color .2s,background .2s,color .2s;
+}
+.weibo:hover{border-color:#e6162d;color:#e6162d;background:#fff5f6}
+.weibo svg{width:15px;height:15px;flex:none}
+
+footer{padding:22px 22px 0;font-size:11px;color:#a8a59d;text-align:center}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow" id="eyebrow"></div>
+    <h1 id="name"></h1>
+    <p class="tagline" id="tagline"></p>
+    <div class="domains" id="domains"></div>
+  </header>
+
+  <div class="sec-h">
+    <h2>平台内容</h2>
+    <span class="hint">左右滑动 · 点开主页</span>
+  </div>
+  <div class="rail-wrap">
+    <button class="nav prev" id="prev" aria-label="上一张">‹</button>
+    <div class="rail" id="rail"></div>
+    <button class="nav next" id="next" aria-label="下一张">›</button>
+  </div>
+
+  <div id="workHost"></div>
+
+  <section class="contact">
+    <div>
+      <h2>商业合作</h2>
+      <p id="contactNote"></p>
+    </div>
+    <a class="mail" id="mail" href="#">✉️ 邮件联系</a>
+  </section>
+
+  <div class="bottom-links" id="bottomLinks"></div>
+
+  <footer id="foot"></footer>
+</div>
+
+<script>
+/* ============================================================
+   ① 只改这里
+   ============================================================ */
+const CONFIG = {
+  name: "你的名字",
+  eyebrow: "内容创作者",
+  tagline: "这里汇总我在各个平台的内容：做什么、以什么形式呈现。第一次来的话，从你常用的平台点进去就行。",
+  domains: ["数码测评", "效率工具", "长期写作"],
+
+  email: "hi@yourdomain.com",
+  contactNote: "内容定制 · 新品发布 · 长期合作，通常 24 小时内回复",
+
+  weiboUrl: "https://weibo.com/yourname",
+
+  platforms: [
+    {
+      name: "抖音", icon: "🎵", handle: "@yourname",
+      topics: ["短视频", "开箱体验"],
+      formats: ["竖屏", "切片", "短测评"],
+      fans: "32.6万",
+      url: "https://www.douyin.com/user/yourname"
+    },
+    {
+      name: "哔哩哔哩", icon: "📺", handle: "@yourname",
+      topics: ["长视频测评", "深度体验"],
+      formats: ["横屏", "全集", "合集"],
+      fans: "42万",
+      url: "https://space.bilibili.com/000000"
+    },
+    {
+      name: "视频号", icon: "🎬", handle: "@yourname",
+      topics: ["短内容", "直播切片"],
+      formats: ["竖屏", "直播切片", "转发"],
+      fans: "8.4万",
+      url: "https://channels.weixin.qq.com/"
+    },
+    {
+      name: "小红书", icon: "📕", handle: "@yourname",
+      topics: ["图文笔记", "生活方式"],
+      formats: ["图文", "plog", "合集"],
+      fans: "8.6万",
+      url: "https://www.xiaohongshu.com/user/profile/xxx"
+    },
+    {
+      name: "小宇宙", icon: "🎙️", handle: "@yourname",
+      topics: ["播客", "长对谈"],
+      formats: ["音频", "长节目", "系列"],
+      fans: "1.9万",
+      url: "https://www.xiaoyuzhoufm.com/podcast/xxx"
+    },
+    {
+      name: "微信公众号", icon: "📰", handle: "yourname",
+      topics: ["深度长文", "行业观察"],
+      formats: ["文章", "长文", "专栏"],
+      fans: "3.2万",
+      url: "https://mp.weixin.qq.com/"
+    }
+  ],
+
+  works: [
+    {
+      title: "书名待定",
+      author: "你的笔名",
+      meta: "都市 · 连载中 · 番茄小说",
+      tag: "连载中",
+      cover: "",
+      url: "https://fanqienovel.com/"
+    }
+  ],
+  worksAddUrl: "#"
+};
+
+/* ============================================================
+   以下渲染逻辑不用动
+   ============================================================ */
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+$("#name").textContent = CONFIG.name;
+$("#eyebrow").textContent = CONFIG.eyebrow;
+$("#tagline").textContent = CONFIG.tagline;
+$("#contactNote").textContent = CONFIG.contactNote;
+$("#mail").href = "mailto:" + CONFIG.email;
+$("#mail").textContent = "✉️ " + CONFIG.email;
+$("#foot").textContent = "© " + new Date().getFullYear() + " " + CONFIG.name + " · 个人内容主页";
+$("#domains").innerHTML = (CONFIG.domains || []).map(d => "<span>" + esc(d) + "</span>").join("");
+
+/* 平台卡片 */
+const rail = $("#rail");
+CONFIG.platforms.forEach(p => {
+  const a = document.createElement("a");
+  a.className = "card";
+  a.href = p.url || "#";
+  a.target = "_blank";
+  a.rel = "noopener";
+  a.innerHTML =
+    '<div class="card-top">' +
+      '<span class="icon">' + esc(p.icon || "🔗") + '</span>' +
+      '<span class="pname">' + esc(p.name) + '</span>' +
+      '<span class="handle">' + esc(p.handle || "") + '</span>' +
+    '</div>' +
+    '<div class="label">内容方向</div>' +
+    '<div class="chips">' + (p.topics || []).map(t => "<span>" + esc(t) + "</span>").join("") + '</div>' +
+    '<div class="label">内容形式</div>' +
+    '<div class="chips">' + (p.formats || []).map(t => "<span>" + esc(t) + "</span>").join("") + '</div>' +
+    '<div class="card-foot">' +
+      '<span class="fans">' + (p.fans ? "关注 " + esc(p.fans) : "") + '</span>' +
+      '<span class="go">查看主页 →</span>' +
+    '</div>';
+  rail.appendChild(a);
+});
+
+/* 扩展中占位卡 */
+const ghost = document.createElement("div");
+ghost.className = "card ghost";
+ghost.innerHTML = '<span class="plus">＋</span><b>扩展中</b><small>新的平台和内容正在加入</small>';
+rail.appendChild(ghost);
+
+/* 作品 */
+if ((CONFIG.works || []).length || CONFIG.worksAddUrl) {
+  const sec = document.createElement("section");
+  let html = '<div class="sec-h"><h2>作品</h2></div><div class="work-list">';
+
+  (CONFIG.works || []).forEach(w => {
+    const cover = w.cover
+      ? '<div class="cover"><img src="' + esc(w.cover) + '" alt="' + esc(w.title) + '"></div>'
+      : '<div class="cover">' + esc(w.title) + '</div>';
+    html += '<a class="work" href="' + esc(w.url || "#") + '" target="_blank" rel="noopener">' +
+      cover +
+      '<div class="work-body">' +
+        '<h3>' + esc(w.title) + (w.author ? ' <span style="font-weight:400;color:#a8a59d;font-size:12px">' + esc(w.author) + '</span>' : '') + '</h3>' +
+        '<p>' + esc(w.meta || "") + '</p>' +
+        (w.tag ? '<span class="tag">' + esc(w.tag) + '</span>' : '') +
+      '</div>' +
+      '<span class="go">阅读 →</span>' +
+    '</a>';
+  });
+
+  html += '<a class="work ghost" href="' + esc(CONFIG.worksAddUrl || "#") + '" target="_blank" rel="noopener">' +
+    '<div class="cover">＋</div>' +
+    '<div class="work-body"><h3>新增作品</h3><p>新的连载和内容会加在这里</p></div>' +
+  '</a>';
+
+  html += '</div>';
+  sec.innerHTML = html;
+  $("#workHost").appendChild(sec);
+}
+
+/* 底部微博 */
+if (CONFIG.weiboUrl) {
+  $("#bottomLinks").innerHTML =
+    '<a class="weibo" href="' + esc(CONFIG.weiboUrl) + '" target="_blank" rel="noopener">' +
+      '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
+        '<circle cx="12" cy="12" r="10" fill="currentColor" opacity=".12"/>' +
+        '<path d="M8 13.5c0-2 1.8-3.5 4-3.5s4 1.5 4 3.5-1.8 3.5-4 3.5-4-1.5-4-3.5z" fill="currentColor"/>' +
+        '<circle cx="12" cy="13.5" r="1.5" fill="#fff"/>' +
+      '</svg><span>Weibo</span>' +
+    '</a>';
+}
+
+/* ---------- 滑动增强：箭头 + 鼠标拖拽 ---------- */
+const prevBtn = $("#prev"), nextBtn = $("#next");
+const step = () => {
+  const c = rail.querySelector(".card");
+  return c ? c.getBoundingClientRect().width + 14 : 300;
+};
+prevBtn.addEventListener("click", () => rail.scrollBy({left: -step(), behavior: "smooth"}));
+nextBtn.addEventListener("click", () => rail.scrollBy({left: step(), behavior: "smooth"}));
+
+const updateNav = () => {
+  const max = rail.scrollWidth - rail.clientWidth - 2;
+  prevBtn.disabled = rail.scrollLeft <= 2;
+  nextBtn.disabled = rail.scrollLeft >= max;
+};
+rail.addEventListener("scroll", updateNav, {passive: true});
+window.addEventListener("resize", updateNav);
+updateNav();
+
+let down = false, dragged = false, sx = 0, sl = 0;
+rail.addEventListener("pointerdown", e => {
+  if (e.pointerType !== "mouse") return;
+  down = true; dragged = false; sx = e.clientX; sl = rail.scrollLeft;
+});
+rail.addEventListener("pointermove", e => {
+  if (!down) return;
+  const dx = e.clientX - sx;
+  if (!dragged && Math.abs(dx) > 6) { dragged = true; rail.classList.add("dragging"); }
+  if (dragged) { e.preventDefault(); rail.scrollLeft = sl - dx; }
+}, {passive: false});
+const endDrag = () => {
+  if (!down) return;
+  down = false;
+  rail.classList.remove("dragging");
+  setTimeout(() => { dragged = false; }, 0);
+};
+rail.addEventListener("pointerup", endDrag);
+rail.addEventListener("pointercancel", endDrag);
+rail.addEventListener("pointerleave", endDrag);
+rail.addEventListener("click", e => {
+  if (dragged) { e.preventDefault(); e.stopPropagation(); }
+}, true);
+rail.addEventListener("dragstart", e => e.preventDefault());
+</script>
+</body>
+</html>
